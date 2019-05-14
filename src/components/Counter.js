@@ -3,15 +3,52 @@ import { connect } from 'react-redux';
 import { increment, decrement } from '../actions';
 
 class Counter extends Component {
+    // constructor(){
+    //     super()
+    //     this.state = {
+    //         newCount:'',
+    //     }
+    // }
     incrementIfOdd = () => {
         // Stretch Problem: Implement an increment function that
         // only increments if the counter value is odd
+        if((this.props.count % 2) !== 0){
+            this.props.increment(this.props.count+1)
+        }
+        
     };
 
     incrementAsync = () => {
         // Stretch Problem: Implement an increment function that
         // increments after waiting for one second
+        // var x = document.getElementById("txt");
+        setTimeout(() =>
+         this.props.increment(this.props.count+1), 1000);
     };
+
+    incrCount = event => {
+        event.preventDefault();
+        // this.setState({
+        //     newCount:this.props.count
+        // })
+        // console.log('counter component state count: '+this.state.newCount)
+        // let newCounter = this.state.newCount
+        // newCounter +=1
+        // console.log('new counter '+newCounter)
+         this.props.increment(this.props.count+1)
+    }
+
+    decrCount = event => {
+        event.preventDefault();
+        // this.setState({
+        //     newCount:this.props.count
+        // })
+        // console.log('counter component state count: '+this.state.newCount)
+        // let newCounter = this.state.newCount
+        // newCounter -=1
+        // console.log('new counter '+newCounter)
+        this.props.decrement(this.props.count-1)
+    }
 
     render() {
         // Fill in the two button onClick methods
@@ -20,20 +57,20 @@ class Counter extends Component {
         return (
             <p>
                 Clicked: {this.props.count} times
-                <button onClick={() => {/* Fill me in */ }}>
+                <button onClick={(event) => this.incrCount(event) }>
                     +
                 </button>
-                <button onClick={() => {/* Fill me in */ }}>
+                <button onClick={(event) => this.decrCount(event) }>
                     -
                 </button>
                  {/* Uncomment these button tags if you got
                 around to implementing the extra credit functions */}
-                {/* <button onClick={this.incrementIfOdd}>
+                <button onClick={this.incrementIfOdd}>
                     Increment if odd
                 </button>
                 <button onClick={this.incrementAsync}>
                     Increment async
-                </button>  */}
+                </button> 
             </p>
         );
     }
@@ -46,6 +83,7 @@ class Counter extends Component {
 // redux application, though, it would receive only the relevant
 // parts it needs from the state object.
 const mapStateToProps = (state) => {
+    console.log('count in mapstatetoprops'+state.count)
     return {
         count: state.count
     };
